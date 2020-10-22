@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Laika apstākļi - Latvija</string>
+    <string name="choose_city">Lūdzu, izvēlies pilsētu</string>
+    <string name="north">Z</string>
+    <string name="west">R</string>
+    <string name="east">A</string>
+    <string name="south">D</string>
+    <string name="disclaimer">Dati iegūti no LVĢMC</string>
+    <string name="direction">virziens</string>
+    <string name="humidity">mitr. (%)</string>
+    <string name="feelsLike">pēc saj. (°C)</string>
+    <string name="wind">vējš (m/s)</string>
+    <string name="precipitation">nokr. (mm)</string>
+    <string name="temperature">temp. (°C)</string>
+    <string name="ainazi">Ainaži</string>
+    <string name="aluksne">Alūksne</string>
+    <string name="kuldiga">Kuldīga</string>
+    <string name="liepaja">Liepāja</string>
+    <string name="mersrags">Mērsrags</string>
+    <string name="pavilosta">Pāvilosta</string>
+    <string name="priekuli">Priekuļi</string>
+    <string name="rezekne">Rēzekne</string>
+    <string name="riga">Rīga</string>
+    <string name="rujiena">Rūjiena</string>
+    <string name="sili">Sīļi</string>
+    <string name="skriveri">Skrīveri</string>
+    <string name="zilani">Zilāni</string>
+    <string name="zoseni">Zosēni</string>
+</resources>

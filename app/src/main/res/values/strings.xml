@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Weather - Latvia</string>
+    <string name="choose_city">Please select city</string>
+    <string name="north">N</string>
+    <string name="west">W</string>
+    <string name="east">E</string>
+    <string name="south">S</string>
+    <string name="disclaimer">Data retrieved from LVĢMC</string>
+    <string name="empty" translatable="false"></string>
+    <string name="direction">direction</string>
+    <string name="humidity">hum. (%)</string>
+    <string name="feelsLike">feels (°C)</string>
+    <string name="wind">wind (m/s)</string>
+    <string name="precipitation">prec. (mm)</string>
+    <string name="temperature">temp. (°C)</string>
+    <string name="ainazi">Ainazi</string>
+    <string name="aluksne">Aluksne</string>
+    <string name="kuldiga">Kuldiga</string>
+    <string name="liepaja">Liepaja</string>
+    <string name="mersrags">Mersrags</string>
+    <string name="pavilosta">Pavilosta</string>
+    <string name="priekuli">Priekuli</string>
+    <string name="rezekne">Rezekne</string>
+    <string name="riga">Riga</string>
+    <string name="rujiena" >Rujiena</string>
+    <string name="sili" >Sili</string>
+    <string name="skriveri">Skriveri</string>
+    <string name="zilani">Zilani</string>
+    <string name="zoseni">Zoseni</string>
+</resources>
