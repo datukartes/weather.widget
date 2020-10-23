@@ -5,8 +5,11 @@ import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -40,8 +43,12 @@ public class ConfigureActivity extends Activity {
         WidgetProvider.update(ConfigureActivity.this, AppWidgetManager.getInstance(this), widgetId);
     }
 
-    private void populateList(ListView listView)
+    private void populateList()
     {
+        ListView listView = findViewById(R.id.configure_cities);
+        ProgressBar progressBar = findViewById(R.id.configure_loading);
+        listView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
         CityRetriever cityRetriever = new CityRetriever(this);
         cityRetriever.withCities(new CityRetriever.ResponseHandler() {
             @Override
@@ -49,8 +56,10 @@ public class ConfigureActivity extends Activity {
                 CityMapper cityMapper = new CityMapper(getApplicationContext());
                 ArrayList<String> cityData = data.stream().map(cityMapper::localize).distinct().collect(Collectors.toCollection(ArrayList::new));
                 ArrayAdapter<String> adapter =
-                        new ArrayAdapter<String>(getApplicationContext(),  android.R.layout.simple_list_item_1, cityData);
+                        new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, cityData);
                 listView.setAdapter(adapter);
+                progressBar.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
                 ConfigureActivity.this.setClickHandler(listView);
             }
 
@@ -78,8 +87,8 @@ public class ConfigureActivity extends Activity {
         }
 
         setContentView(R.layout.configure);
-        ListView cityList = findViewById(R.id.cities);
-        this.populateList(cityList);
+
+        this.populateList();
     }
 
     private int getWidgetId()
@@ -96,10 +105,6 @@ public class ConfigureActivity extends Activity {
 
     private  boolean isWidgetIdValid(int widgetId)
     {
-        if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
-            return false;
-        }
-
-        return true;
+        return widgetId != AppWidgetManager.INVALID_APPWIDGET_ID;
     }
 }
