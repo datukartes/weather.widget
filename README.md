@@ -1,7 +1,10 @@
 # weather.widget
 Android Widget for hourly weather data in Latvia directly from LVĢMC
+
 Supported Android version: 8+
+
 Supported Languages: LV, EN
+
 
 ## Screenshots
  EN | LV
