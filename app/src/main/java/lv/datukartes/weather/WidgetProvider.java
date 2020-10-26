@@ -25,7 +25,7 @@ import static android.view.View.VISIBLE;
  */
 public class WidgetProvider extends AppWidgetProvider {
 
-    private static final String SYNC_CLICKED    = "com.example.hourlyweatherwidget.WidgetProvider.SYNC_CLICKED";
+    private static final String SYNC_CLICKED    = "lv.datukartes.weather.widget.SYNC_CLICKED";
     private static final String latvian = "latviešu";
     private static final String widgetKey = "widgetId";
     private static final String disclaimerUrl = "https://videscentrs.lvgmc.lv";

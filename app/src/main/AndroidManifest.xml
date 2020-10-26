@@ -20,7 +20,7 @@
         <receiver android:name="lv.datukartes.weather.WidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="lv.datukartes.weather.WeatherWidget.SYNC_CLICKED" />
+                <action android:name="lv.datukartes.weather.widget.SYNC_CLICKED" />
             </intent-filter>
 
             <meta-data
