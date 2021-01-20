@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     android:orientation="horizontal">
     <RelativeLayout
         android:id="@+id/header"
@@ -18,7 +18,6 @@
             android:gravity="start"
             android:layout_alignParentStart="true"
             android:text="@string/empty"
-            android:textColor="#283141"
             android:autoLink="web"
             android:textSize="16sp" />
         <TextView
@@ -31,38 +30,35 @@
             android:textAlignment="gravity"
             android:text="@string/empty"
             android:linksClickable="true"
-            android:textColor="#283141"
             android:autoLink="web"
             android:textSize="18sp" />
     </RelativeLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_marginBottom="10dp"
         android:layout_marginTop="18dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
         <ProgressBar
             android:id="@+id/body_loading"
             style="?android:attr/progressBarStyleSmall"
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:indeterminate="true"
-            android:indeterminateTintMode="src_atop"
-            android:indeterminateTint="#0B4787"
-            />
-    <ListView
-        android:id="@+id/body_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"/>
-    </LinearLayout>
+            android:indeterminateTint="#0B4787" />
+        <ListView
+            android:id="@+id/body_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp" />
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#fff"
         android:paddingTop="2dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
@@ -75,7 +71,6 @@
         android:gravity="center"
         android:text="@string/empty"
         android:linksClickable="true"
-        android:textColor="#283141"
         android:autoLink="web"
         android:textSize="12sp" />
     </LinearLayout>

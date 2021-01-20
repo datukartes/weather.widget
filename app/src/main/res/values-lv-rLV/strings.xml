@@ -27,4 +27,8 @@
     <string name="skriveri">Skrīveri</string>
     <string name="zilani">Zilāni</string>
     <string name="zoseni">Zosēni</string>
+    <string name="choose_theme">Lūdzu, izvēlies motīvu</string>
+    <string name="light">Gaišs</string>
+    <string name="dark">Tumšs</string>
+    <string name="transparency">Caurredzamība</string>
 </resources>

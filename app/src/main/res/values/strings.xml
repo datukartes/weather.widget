@@ -27,4 +27,8 @@
     <string name="skriveri">Skriveri</string>
     <string name="zilani">Zilani</string>
     <string name="zoseni">Zoseni</string>
+    <string name="choose_theme">Please select theme</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="transparency">Transparency</string>
 </resources>

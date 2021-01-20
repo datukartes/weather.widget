@@ -1,10 +1,43 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Light" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@android:color/white</item>
-        <item name="colorPrimaryDark">#0B4787</item>
-        <item name="background">@android:color/white</item>
-        <item name="android:textColor">#283141</item>
+        <item name="android:statusBarColor">#ffffffff</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:textColor">#ff283141</item>
+        <item name="android:textColorPrimary">#ff283141</item>
+        <item name="android:textColorSecondary">#ff283141</item>
+        <item name="android:textColorTertiary">#ff283141</item>
+        <item name="android:textColorPrimaryInverse">#ffbbbbbb</item>
+        <item name="android:textColorSecondaryInverse">#ffbbbbbb</item>
+        <item name="android:textColorTertiaryInverse">#ffbbbbbb</item>
+        <item name="android:textColorHint">#ff283141</item>
+        <item name="android:background">#ffffffff</item>
+    </style>
+    <style name="Dark" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="android:statusBarColor">#ff202124</item>
+        <item name="android:textColor">#ffbbbbbb</item>
+        <item name="android:textColorPrimary">#ffbbbbbb</item>
+        <item name="android:textColorSecondary">#ffbbbbbb</item>
+        <item name="android:textColorTertiary">#ffbbbbbb</item>
+        <item name="android:textColorPrimaryInverse">#ff283141</item>
+        <item name="android:textColorSecondaryInverse">#ff283141</item>
+        <item name="android:textColorTertiaryInverse">#ff283141</item>
+        <item name="android:textColorHint">#ff283141</item>
+        <item name="android:background">#ff202124</item>
+    </style>
+    <style name="Transparent" parent="Theme.AppCompat.Light">
+        <item name="android:statusBarColor">#ccffffff</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:textColor">#ff283141</item>
+        <item name="android:textColorPrimary">#ff283141</item>
+        <item name="android:textColorSecondary">#ff283141</item>
+        <item name="android:textColorTertiary">#ff283141</item>
+        <item name="android:textColorPrimaryInverse">#ffbbbbbb</item>
+        <item name="android:textColorSecondaryInverse">#ffbbbbbb</item>
+        <item name="android:textColorTertiaryInverse">#ffbbbbbb</item>
+        <item name="android:textColorHint">#ff283141</item>
+        <item name="android:background">#ccffffff</item>
     </style>
 </resources>

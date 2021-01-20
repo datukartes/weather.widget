@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/white"
     android:padding="16dp"
+    android:background="?android:background"
     android:gravity="center_horizontal" >
 
     <ProgressBar
@@ -17,12 +17,58 @@
         android:indeterminateTintMode="src_atop"
         android:indeterminateTint="#0B4787"
         />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:textStyle="bold"
-        android:text="@string/choose_city" />
+        android:text="@string/choose_theme"
+        android:textStyle="bold" />
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <RadioButton
+            android:id="@+id/radio_material"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="materialThemeSelected"
+            android:textColor="@color/radio"
+            android:buttonTint="#0B4787"
+            android:text="@string/light" />
+        <RadioButton
+            android:id="@+id/radio_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="darkThemeSelected"
+            android:textColor="@color/radio"
+            android:buttonTint="#0B4787"
+            android:text="@string/dark" />
+    </RadioGroup>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/transparency"
+        android:textStyle="bold" />
+    <SeekBar
+        android:id="@+id/opacity"
+        android:max="255"
+        android:progress="25"
+        android:paddingBottom="4dp"
+        android:progressTint="#0B4787"
+        android:thumbTint="#0B4787"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/choose_city"
+        android:textStyle="bold" />
     <ListView
         android:id="@+id/configure_cities"
         android:layout_width="match_parent"

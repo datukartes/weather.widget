@@ -4,16 +4,23 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class ConfigureActivity extends Activity {
+public class ConfigureActivity extends Activity implements SeekBar.OnSeekBarChangeListener {
+
+    private int transparency = 0;
 
     private void cancel()
     {
@@ -33,14 +40,10 @@ public class ConfigureActivity extends Activity {
             }
 
             String city = listView.getItemAtPosition(position).toString();
-            ConfigureActivity.this.setPreferences(widgetId, cityMapper.reset(city));
+            this.setPreferences(widgetId, cityMapper.reset(city));
+            WidgetProvider.update(ConfigureActivity.this, AppWidgetManager.getInstance(this), widgetId);
             this.launch(widgetId);
         });
-    }
-    private void setPreferences(int widgetId, String city)
-    {
-        getSharedPreferences("_", MODE_PRIVATE).edit().putString(widgetId + "_city", city).commit();
-        WidgetProvider.update(ConfigureActivity.this, AppWidgetManager.getInstance(this), widgetId);
     }
 
     private void populateList()
@@ -53,10 +56,10 @@ public class ConfigureActivity extends Activity {
         cityRetriever.withCities(new CityRetriever.ResponseHandler() {
             @Override
             public void onSuccess(ArrayList<String> data) {
-                CityMapper cityMapper = new CityMapper(getApplicationContext());
+                CityMapper cityMapper = new CityMapper(ConfigureActivity.this);
                 ArrayList<String> cityData = data.stream().map(cityMapper::localize).distinct().collect(Collectors.toCollection(ArrayList::new));
                 ArrayAdapter<String> adapter =
-                        new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, cityData);
+                        new ArrayAdapter<>(ConfigureActivity.this, R.layout.city_row, cityData);
                 listView.setAdapter(adapter);
                 progressBar.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
@@ -88,9 +91,21 @@ public class ConfigureActivity extends Activity {
 
         setContentView(R.layout.configure);
 
+        SeekBar seekBar = findViewById(R.id.opacity);
+        seekBar.setProgress(this.transparency);
+        seekBar.setOnSeekBarChangeListener(this);
+
         this.populateList();
     }
 
+    private int getColor(String name)
+    {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = ConfigureActivity.this.getTheme();
+        int colorAttr = ConfigureActivity.this.getResources().getIdentifier(name, "attr", ConfigureActivity.this.getPackageName());
+        theme.resolveAttribute(colorAttr, typedValue, true);
+        return typedValue.data;
+    }
     private int getWidgetId()
     {
         int widgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
@@ -103,8 +118,43 @@ public class ConfigureActivity extends Activity {
         return widgetId;
     }
 
+    public void materialThemeSelected(View view) {
+        this.setTheme(R.style.Light);
+    }
+
+    public void darkThemeSelected(View view) {
+        this.setTheme(R.style.Dark);
+    }
+
+    private void setPreferences(int widgetId, String city)
+    {
+        SharedPreferences.Editor editor = getSharedPreferences(String.valueOf(widgetId), MODE_PRIVATE).edit();
+        editor.putString("city", city);
+
+        int background = this.getColor("android:background");
+        int alpha = Color.argb(255 - this.transparency, Color.red(background), Color.green(background), Color.blue(background));
+        editor.putInt("background", alpha);
+        editor.putInt("textColor", this.getColor("android:textColor"));
+        editor.commit();
+    }
+
     private  boolean isWidgetIdValid(int widgetId)
     {
         return widgetId != AppWidgetManager.INVALID_APPWIDGET_ID;
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        this.transparency = seekBar.getProgress();
     }
 }

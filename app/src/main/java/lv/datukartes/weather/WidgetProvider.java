@@ -5,6 +5,8 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -52,12 +54,11 @@ public class WidgetProvider extends AppWidgetProvider {
         if (SYNC_CLICKED.equals(intent.getAction())) {
 
             int widgetId = intent.getIntExtra(WidgetProvider.widgetKey, 0);
-
             WidgetProvider.update(context, AppWidgetManager.getInstance(context), widgetId);
         }
     }
 
-    protected static void updateCityBlock(RemoteViews views, Context context, int widgetId, String city)
+    protected static void updateCityBlock(RemoteViews views, Context context, int widgetId, String city, int textColor)
     {
         Uri cityUri = Uri.parse(WidgetProvider.cityUrl);
         Intent cityIntent = new Intent(Intent.ACTION_VIEW, cityUri);
@@ -65,18 +66,20 @@ public class WidgetProvider extends AppWidgetProvider {
         PendingIntent cityPendingIntent = PendingIntent.getActivity(context, widgetId, cityIntent, 0);
         views.setOnClickPendingIntent(R.id.header_city, cityPendingIntent);
         views.setTextViewText(R.id.header_city, cityMapper.localize(city));
+        views.setTextColor(R.id.header_city, textColor);
     }
 
-    protected static void updateRefreshBlock(RemoteViews views, Context context, int widgetId)
+    protected static void updateRefreshBlock(RemoteViews views, Context context, int widgetId, int textColor)
     {
         Intent intent = new Intent(context, WidgetProvider.class);
         intent.setAction(SYNC_CLICKED);
         intent.putExtra(WidgetProvider.widgetKey, widgetId);
         views.setOnClickPendingIntent(R.id.header_refresh, PendingIntent.getBroadcast(context, widgetId, intent, 0));
         views.setTextViewText(R.id.header_refresh, "\u21bb");
+        views.setTextColor(R.id.header_refresh, textColor);
     }
 
-    protected static void updateDisclaimerBlock(RemoteViews views, Context context, int widgetId)
+    protected static void updateDisclaimerBlock(RemoteViews views, Context context, int widgetId, int textColor)
     {
         DateFormat dateFormat = new SimpleDateFormat(WidgetProvider.timeFormat);
         Date currentTime = Calendar.getInstance().getTime();
@@ -87,14 +90,16 @@ public class WidgetProvider extends AppWidgetProvider {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, widgetId, intent, 0);
         views.setOnClickPendingIntent(R.id.footer_disclaimer, pendingIntent);
         views.setTextViewText(R.id.footer_disclaimer, string + " (" + dateFormat.format(currentTime) + ")");
+        views.setTextColor(R.id.footer_disclaimer, textColor);
     }
 
-    protected static void updateDataList(RemoteViews views, Context context, ArrayList<WeatherData> weatherDataArrayList, ArrayList<String> stringArrayList)
+    protected static void updateDataList(RemoteViews views, Context context, ArrayList<WeatherData> weatherDataArrayList, ArrayList<String> stringArrayList, int textColor)
     {
         Intent weatherDataIntent = new Intent(context, WidgetService.class);
         Bundle weatherDataBundle = new Bundle();
         weatherDataBundle.putParcelableArrayList(WidgetRemoteViewsFactory.weatherDataKey, weatherDataArrayList);
         weatherDataBundle.putStringArrayList(WidgetRemoteViewsFactory.warningsKey, stringArrayList);
+        weatherDataBundle.putInt(WidgetRemoteViewsFactory.textColorKey, textColor);
         weatherDataIntent.putExtra(WidgetRemoteViewsFactory.bundleKey, weatherDataBundle);
         weatherDataIntent.setData(Uri.fromParts("content", String.valueOf(System.currentTimeMillis()), null));
         views.setRemoteAdapter(R.id.body_list, weatherDataIntent);
@@ -136,6 +141,7 @@ public class WidgetProvider extends AppWidgetProvider {
             }
         });
     }
+
     public static void update(Context context, AppWidgetManager appWidgetManager, int widgetId)
     {
         RemoteViews views = new RemoteViews(
@@ -145,15 +151,20 @@ public class WidgetProvider extends AppWidgetProvider {
         views.setViewVisibility(R.id.body_list, GONE);
         views.setViewVisibility(R.id.body_loading, VISIBLE);
         appWidgetManager.updateAppWidget(widgetId, views);
-        String city = context.getSharedPreferences("_", Context.MODE_PRIVATE).getString(widgetId + "_city", null);
+        String key = String.valueOf(widgetId);
+        SharedPreferences prefs = context.getSharedPreferences(key, Context.MODE_PRIVATE);
+        int background = prefs.getInt("background", Color.WHITE);
+        int textColor = prefs.getInt("textColor", Color.BLACK);
+        views.setInt(R.id.layout, "setBackgroundColor", background);
+        String city = prefs.getString("city", null);
         if (city != null) {
             WidgetProvider.withData(context, city, new ResponseHandler() {
                 @Override
                 public void onSuccess(ArrayList<String> warnings, ArrayList<WeatherData> weatherDataArrayList) {
-                    WidgetProvider.updateCityBlock(views, context, widgetId, city);
-                    WidgetProvider.updateRefreshBlock(views, context, widgetId);
-                    WidgetProvider.updateDisclaimerBlock(views, context, widgetId);
-                    WidgetProvider.updateDataList(views, context, weatherDataArrayList, warnings);
+                    WidgetProvider.updateCityBlock(views, context, widgetId, city, textColor);
+                    WidgetProvider.updateRefreshBlock(views, context, widgetId, textColor);
+                    WidgetProvider.updateDisclaimerBlock(views, context, widgetId, textColor);
+                    WidgetProvider.updateDataList(views, context, weatherDataArrayList, warnings, textColor);
                     views.setViewVisibility(R.id.body_loading, GONE);
                     views.setViewVisibility(R.id.body_list, VISIBLE);
                     appWidgetManager.updateAppWidget(widgetId, views);

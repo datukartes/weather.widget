@@ -19,6 +19,7 @@ import java.util.Objects;
 
 public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
+    public static final String textColorKey = "textColor";
     public static final String warningsKey = "warnings";
     public static final String weatherDataKey = "weatherDataArrayList";
     public static final String bundleKey = "data";
@@ -30,6 +31,7 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
     private Context context;
     private ArrayList<WeatherData> weatherDataArrayList;
     private ArrayList<String> warningsArrayList;
+    private int textColor;
 
     public WidgetRemoteViewsFactory(Context context, Intent intent)
     {
@@ -37,6 +39,8 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
                 .getStringArrayList(WidgetRemoteViewsFactory.warningsKey);
         this.weatherDataArrayList = Objects.requireNonNull(intent.getBundleExtra(WidgetRemoteViewsFactory.bundleKey))
                 .getParcelableArrayList(WidgetRemoteViewsFactory.weatherDataKey);
+        this.textColor = Objects.requireNonNull(intent.getBundleExtra(WidgetRemoteViewsFactory.bundleKey))
+                .getInt(WidgetRemoteViewsFactory.textColorKey);
         this.context = context;
     }
 
@@ -65,7 +69,7 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         remoteView.setTextViewText(R.id.wind_value, WidgetRemoteViewsFactory.empty);
         remoteView.setTextViewText(R.id.wind_gusts, WidgetRemoteViewsFactory.empty);
 
-        return remoteView;
+        return this.setTextColors(remoteView);
     }
 
     @Override
@@ -92,6 +96,7 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
                 R.layout.warning);
 
         remoteView.setTextViewText(R.id.text, warning);
+        remoteView.setTextColor(R.id.text, this.textColor);
         return remoteView;
     }
 
@@ -163,10 +168,28 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         remoteView.setTextViewText(R.id.wind_value, weatherData.getWind().getSpeed());
         remoteView.setTextViewText(R.id.wind_gusts, this.getLocalizedDirection(weatherData.getWind().getDirection()));
 
-        return remoteView;
+        return this.setTextColors(remoteView);
     }
 
+    private RemoteViews setTextColors(RemoteViews views)
+    {
+        views.setTextColor(R.id.meta_date, textColor);
+        views.setTextColor(R.id.meta_time, textColor);
+        views.setTextColor(R.id.temperature_feels_like, textColor);
+        views.setTextColor(R.id.temperature_header, textColor);
+        views.setTextColor(R.id.temperature_footer, textColor);
+        views.setTextColor(R.id.temperature_value, textColor);
+        views.setTextColor(R.id.humidity, textColor);
+        views.setTextColor(R.id.humidity_footer, textColor);
+        views.setTextColor(R.id.precipitation_header, textColor);
+        views.setTextColor(R.id.precipitation_value, textColor);
+        views.setTextColor(R.id.wind_header, textColor);
+        views.setTextColor(R.id.wind_gusts, textColor);
+        views.setTextColor(R.id.wind_value, textColor);
+        views.setTextColor(R.id.wind_footer, textColor);
 
+        return views;
+    }
     @Override
     public int getViewTypeCount()
     {

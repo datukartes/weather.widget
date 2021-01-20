@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class WarningsRetriever {
 
@@ -58,6 +59,6 @@ public class WarningsRetriever {
 
         }
 
-        return list;
+        return (ArrayList<String>) list.stream().distinct().collect(Collectors.toList());
     }
 }
